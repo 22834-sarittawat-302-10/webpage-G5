@@ -1,0 +1,317 @@
+/* ==========================================================================
+   1. Root Variables & Custom Dino Cursor
+   ========================================================================== */
+:root {
+    --primary-deep: #0D47A1;
+    --primary-main: #1976D2;
+    --primary-accent: #00E676; /* Green Accent */
+    --primary-light: #90CAF9;
+    --bg-tint: rgba(227, 242, 253, 0.9);
+    --text-dark: #0F172A;
+    --text-muted: #334155;
+    --white-bright: rgba(255, 255, 255, 0.94);
+    
+    --shadow-md: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 15px 35px rgba(0, 230, 118, 0.25);
+    
+    --radius-md: 16px;
+    --radius-full: 9999px;
+    --transition: all 0.3s ease;
+}
+
+/* Custom Claw Cursor using SVG Data URI */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%2300E676" stroke="%23000" stroke-width="1.5" d="M3 21l3-9 3 9-3-3-3 3zm6-3l3-12 3 12-3-3-3 3zm6 3l3-15 3 15-3-3-3 3z"/></svg>'), auto !important;
+}
+
+/* ==========================================================================
+   2. Background & Layout
+   ========================================================================== */
+body {
+    font-family: 'Kanit', sans-serif;
+    /* Indominus Rex Background */
+    background: linear-gradient(rgba(255, 255, 255, 0.82), rgba(240, 249, 255, 0.88)), 
+                url('https://i.redd.it/who-wins-indominus-rex-fully-grown-vs-captain-gutt-v0-55tl8k2fg4tf1.jpg?width=1916&format=pjpg&auto=webp&s=3b91b1d27b6e86a56337b289f5c0e5ad4c129c67') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+main { flex: 1; }
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding { padding: 60px 20px; }
+.grid { display: grid; gap: 24px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+/* Green Flame Borders */
+.flame-border {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    box-shadow: 0 0 18px #00E676, 0 0 35px #00E676 inset;
+    animation: flamePulse 1.5s infinite alternate;
+}
+.flame-top { top: 0; left: 0; right: 0; height: 6px; }
+.flame-bottom { bottom: 0; left: 0; right: 0; height: 6px; }
+.flame-left { top: 0; bottom: 0; left: 0; width: 6px; }
+.flame-right { top: 0; bottom: 0; right: 0; width: 6px; }
+
+@keyframes flamePulse {
+    0% { box-shadow: 0 0 12px #00E676, 0 0 20px #00E676 inset; filter: hue-rotate(0deg); }
+    100% { box-shadow: 0 0 28px #39FF14, 0 0 45px #39FF14 inset; filter: hue-rotate(20deg); }
+}
+
+/* Red Scratch FX */
+.scratch-mark {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    animation: scratchFade 0.7s forwards;
+}
+.scratch-mark::before, .scratch-mark::after, .scratch-line-3 {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 50px;
+    background: linear-gradient(180deg, #FF0000, #990000);
+    border-radius: 2px;
+    box-shadow: 0 0 8px #FF0000;
+}
+.scratch-mark::before { left: 10px; transform: rotate(5deg); }
+.scratch-mark::after { left: 26px; height: 55px; top: -3px; }
+.scratch-line-3 { left: 42px; transform: rotate(-5deg); }
+
+@keyframes scratchFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) rotate(-15deg); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9) rotate(-15deg); }
+}
+
+/* Dinosaur Sticker Decoration */
+.dino-attach {
+    position: relative;
+}
+.dino-sticker {
+    position: absolute;
+    font-size: 1.8rem;
+    z-index: 10;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3));
+    animation: dinoWiggle 3s infinite ease-in-out;
+}
+.dino-sticker.top-right { top: -12px; right: -10px; }
+.dino-sticker.top-left { top: -12px; left: -10px; }
+.dino-sticker.bottom-right { bottom: -10px; right: -10px; }
+
+@keyframes dinoWiggle {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(12deg) scale(1.15); }
+}
+
+/* ==========================================================================
+   3. Cards & Buttons
+   ========================================================================== */
+.card {
+    background: var(--white-bright);
+    border-radius: var(--radius-md);
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+    border: 2px solid rgba(25, 118, 210, 0.2);
+    backdrop-filter: blur(8px);
+}
+.card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+    border-color: var(--primary-accent);
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background-color: var(--primary-deep);
+    color: #FFF;
+    font-weight: 500;
+    border-radius: var(--radius-full);
+    margin-bottom: 12px;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-deep), var(--primary-main));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: var(--radius-full);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-main), var(--primary-deep));
+    color: #FFF;
+    box-shadow: 0 4px 15px rgba(25, 118, 210, 0.4);
+}
+.btn-primary:hover {
+    box-shadow: 0 8px 20px rgba(0, 230, 118, 0.6);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #FFF;
+    color: var(--primary-main);
+    border: 2px solid var(--primary-main);
+}
+.btn-secondary:hover {
+    background-color: var(--bg-tint);
+    border-color: var(--primary-accent);
+}
+
+.btn-sm { padding: 8px 16px; font-size: 0.875rem; margin-top: 10px; }
+
+/* ==========================================================================
+   4. Navbar & Sections
+   ========================================================================== */
+.navbar-container {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-bottom: 3px solid var(--primary-accent);
+}
+
+.navbar {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-deep);
+    text-decoration: none;
+}
+.logo span { color: #00C853; }
+
+.nav-links { display: flex; list-style: none; gap: 16px; }
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    transition: var(--transition);
+}
+.nav-links a:hover, .nav-links a.active {
+    color: var(--primary-deep);
+    background-color: var(--bg-tint);
+    border: 1px solid var(--primary-accent);
+}
+
+/* Hero Section */
+.hero-section { padding: 80px 20px; }
+.hero-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+}
+.hero-text h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 16px; }
+.hero-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 28px; font-weight: 500; }
+.hero-cta { display: flex; gap: 16px; }
+
+.hero-image-wrapper { position: relative; display: flex; justify-content: center; }
+.image-bg-circle {
+    position: absolute; width: 290px; height: 290px;
+    background: linear-gradient(135deg, var(--primary-accent), var(--primary-main));
+    border-radius: 50%; filter: blur(15px); opacity: 0.5;
+}
+.hero-profile-img {
+    width: 280px; height: 280px; object-fit: cover; border-radius: 50%;
+    border: 6px solid #FFF; box-shadow: var(--shadow-lg); position: relative; z-index: 2;
+}
+
+/* Page Headers & Cards Specifics */
+.page-header { text-align: center; margin-bottom: 40px; }
+.page-header h1 { font-size: 2.5rem; color: var(--primary-deep); }
+
+.card-title-blue {
+    color: var(--primary-deep); font-size: 1.4rem; margin-bottom: 16px;
+    border-bottom: 3px solid var(--primary-accent); padding-bottom: 8px;
+}
+
+.profile-layout { display: grid; grid-template-columns: 320px 1fr; gap: 32px; }
+.profile-card { text-align: center; }
+.profile-avatar { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; margin-bottom: 16px; border: 4px solid var(--primary-main); }
+.info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.info-label { font-size: 0.9rem; color: var(--text-muted); }
+.info-value { font-weight: 600; color: var(--text-dark); }
+
+/* Timeline & Education */
+.current-edu-card { background: linear-gradient(135deg, var(--primary-deep), var(--primary-main)); color: #FFF; position: relative; }
+.current-edu-card h2 { color: #FFF; }
+.edu-badge { position: absolute; top: 20px; right: 20px; background: #00E676; color: #000; font-weight: bold; padding: 4px 12px; border-radius: var(--radius-full); }
+.edu-details { display: flex; gap: 20px; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 16px; margin-top: 16px; flex-wrap: wrap; }
+
+.timeline { position: relative; padding-left: 30px; border-left: 4px solid var(--primary-accent); }
+.timeline-item { position: relative; margin-bottom: 30px; }
+.timeline-dot { position: absolute; left: -39px; top: 0; width: 18px; height: 18px; border-radius: 50%; background: #00E676; border: 3px solid #FFF; }
+
+.edu-table { width: 100%; border-collapse: collapse; }
+.edu-table th, .edu-table td { padding: 16px; text-align: left; }
+.edu-table th { background: var(--bg-tint); color: var(--primary-deep); }
+.status-badge { padding: 4px 12px; border-radius: var(--radius-full); font-weight: 600; font-size: 0.85rem; }
+.status-done { background: #DCFCE7; color: #15803D; }
+.status-active { background: #E0F2FE; color: #0369A1; }
+
+/* Hobbies & Contact */
+.hobby-card { text-align: center; border-top: 5px solid var(--primary-accent); }
+.hobby-icon { font-size: 3rem; margin-bottom: 12px; }
+.contact-card { display: flex; gap: 16px; align-items: flex-start; }
+.contact-icon { font-size: 2rem; background: var(--bg-tint); width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); flex-shrink: 0; }
+
+/* Footer */
+.footer { background: var(--primary-deep); color: #FFF; padding-top: 40px; margin-top: auto; }
+.footer-container { max-width: 1100px; margin: 0 auto; padding: 0 20px 30px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.footer-links ul { list-style: none; display: flex; gap: 16px; }
+.footer-links a { color: var(--primary-light); text-decoration: none; }
+.footer-links a:hover { color: #00E676; }
+.footer-bottom { text-align: center; padding: 16px; background: rgba(0,0,0,0.2); font-size: 0.85rem; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-container, .profile-layout, .grid-2, .grid-3 { grid-template-columns: 1fr; text-align: center; }
+    .hero-cta { justify-content: center; }
+    .nav-links { flex-wrap: wrap; justify-content: center; }
+    .contact-card { flex-direction: column; align-items: center; }
+    .footer-container { flex-direction: column; text-align: center; gap: 20px; }
+    .footer-links ul { justify-content: center; }
+}
